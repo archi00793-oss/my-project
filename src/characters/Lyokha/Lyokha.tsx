@@ -7,6 +7,9 @@ export type LyokhaProps = FaceProps & {
   /** Снять курьерскую куртку, оставив мятое худи. */
   jacket?: boolean;
   holdingPhone?: boolean;
+  /** Содержимое экрана и укрупнение телефона для читаемого переднего плана. */
+  phoneContent?: React.ReactNode;
+  phoneWidth?: number;
   /** Подъём рук наружу в градусах, 0 — опущены. */
   armLeft?: number;
   armRight?: number;
@@ -23,7 +26,7 @@ export const LYOKHA_ASPECT = 1100 / 600;
 
 export const Lyokha: React.FC<LyokhaProps> = ({
   jacket = true, holdingPhone = true, armLeft = 0, armRight = 0, bendLeft = 0, bendRight = 0,
-  headTilt = 0, bob = 0, width = 600, style, ...face
+  phoneContent, phoneWidth, headTilt = 0, bob = 0, width = 600, style, ...face
 }) => (
   <svg viewBox="0 0 600 1100" width={width} height={width * LYOKHA_ASPECT}
     style={{ overflow: "visible", ...style }} role="img" aria-label="Лёха">
@@ -35,7 +38,8 @@ export const Lyokha: React.FC<LyokhaProps> = ({
     <g transform={`translate(0 ${bob})`}>
       <LyokhaTorso jacket={jacket} />
       <LyokhaArm side="left" angle={armLeft} bend={bendLeft} jacket={jacket} />
-      <LyokhaArm side="right" angle={armRight} bend={bendRight} jacket={jacket} holdingPhone={holdingPhone} />
+      <LyokhaArm side="right" angle={armRight} bend={bendRight} jacket={jacket} holdingPhone={holdingPhone}
+        phoneContent={phoneContent} phoneWidth={phoneWidth} />
       <LyokhaHead tilt={headTilt} {...face} />
     </g>
   </svg>

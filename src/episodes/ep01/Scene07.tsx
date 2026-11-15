@@ -1,10 +1,10 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { LyokhaArm } from "../../characters/Lyokha/parts";
+import { blink, breathe } from "../../animation/motion";
+import { Lyokha } from "../../characters/Lyokha";
 import { Camera } from "../../components/Camera";
 import { Captions, type Caption } from "../../components/Captions";
 import { COLORS, FONTS, sec } from "../../config/video";
-import { Phone } from "../../props";
 import { Apartment } from "../../scenes/Apartment";
 
 export const SCENE07_DURATION = sec(5);
@@ -54,21 +54,18 @@ const BankScreen: React.FC = () => (
   </AbsoluteFill>
 );
 
-/** 0:43–0:48. Телефон в поднятой руке: маршрут сменяется банковским приложением. */
+/** 0:43–0:48. Лёха с телефоном в руке: маршрут сменяется банковским приложением. */
 export const Scene07: React.FC = () => {
   const frame = useCurrentFrame();
   return (
     <AbsoluteFill>
       <Camera keyframes={[{ frame: 0, zoom: 1 }]}>
         <Apartment />
-        {/* Используется готовая рука Лёхи; телефон вынесен отдельно для содержимого экрана. */}
-        <svg viewBox="320 180 180 340" width={720} height={1360}
-          style={{ position: "absolute", left: 390, top: 727 }} aria-label="Рука Лёхи в курьерской куртке">
-          <LyokhaArm side="right" angle={180} jacket />
-        </svg>
-        <Phone width={500} style={{ position: "absolute", left: 290, top: 260 }}>
-          {frame < BANK_FROM ? <RouteScreen /> : <BankScreen />}
-        </Phone>
+        <Lyokha width={900} jacket holdingPhone phoneWidth={260}
+          phoneContent={frame < BANK_FROM ? <RouteScreen /> : <BankScreen />}
+          expression={frame < BANK_FROM ? "confused" : "sad"}
+          eyesOpen={blink(frame)} lookX={1} headTilt={8} mouthOpen={0} bob={breathe(frame) * 2}
+          style={{ position: "absolute", left: -100, top: 160 }} />
       </Camera>
       <Captions captions={captions} fontSize={82} top={1430} renderWord={alignRubleWord} />
     </AbsoluteFill>
