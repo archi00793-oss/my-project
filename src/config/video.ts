@@ -39,6 +39,25 @@ export const COLORS = {
   pupil: "#1E1E24",
   mouth: "#7A2E2E",
 
+  // ЛЁХИНО: одежда, техника и реквизит первой серии
+  courier: "#F2C94C",
+  courierShadow: "#D5A52E",
+  lyokhaHoodie: "#537A79",
+  lyokhaHoodieShadow: "#3C5F62",
+  cap: "#355657",
+  grayHair: "#D1D4CE",
+  grayHairShadow: "#A5B0AF",
+  telnyashka: "#344D68",
+  cardboard: "#BA8B59",
+  cardboardLight: "#D8AC78",
+  cardboardDark: "#89613E",
+  plastic: "#303845",
+  plasticLight: "#515D6A",
+  glass: "#233B45",
+  noodle: "#EAC471",
+  forest: "#345B50",
+  forestDark: "#28463F",
+
   // интерфейс
   captionMain: "#FFFFFF",
   captionAccent: "#F5C33B",
