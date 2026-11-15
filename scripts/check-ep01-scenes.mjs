@@ -21,8 +21,12 @@ try {
     ["scene08-a", 48.9], ["scene08-b", 52.6],
     ["scene09-a", 55.8], ["scene09-b", 56.6],
   ];
-  const selected = process.argv[2] === "4-6" ? shots.slice(6, 12)
+  const selected = process.argv[2] === "4" ? shots.slice(6, 8)
+    : process.argv[2] === "4-6" ? shots.slice(6, 12)
     : process.argv[2] === "7-9" ? shots.slice(12)
+    : process.argv[2] === "4-6-details" ? [
+      ["scene04-start", 18], ["scene04-dust", 20.05], ["scene04-insert", 21.05],
+    ]
     : process.argv[2] === "7-9-motion" ? [
       ["scene08-moving", 49.55],
       ["scene09-start", 53], ["scene09-middle", 54.65], ["scene09-before-cut", 56.267],

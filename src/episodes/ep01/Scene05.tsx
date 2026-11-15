@@ -47,17 +47,19 @@ export const Scene05: React.FC = () => {
           <Lyokha width={550} holdingPhone={false} jacket expression="confused"
             bendLeft={90} bendRight={bend} eyesOpen={blink(frame)} headTilt={15} lookX={-0.5}
             style={{ position: "absolute", left: 370, top: 650 }} />
-          <div style={{ position: "absolute", left: 450, top: 1050, width: 380 }}>
-            <Doshirak width={380} note=" " />
+          <div style={{ position: "absolute", left: 510, top: 1010, width: 380 }}>
+            <Doshirak width={380} />
             <svg viewBox="0 0 360 280" width={380} height={380 * 280 / 360}
               style={{ position: "absolute", inset: 0 }}>
               {/* Пустая упаковка; штрихи вместо отсутствующего в сценарии адреса. */}
               <ellipse cx={180} cy={98} rx={132} ry={42} fill={COLORS.cardboardLight} />
               <ellipse cx={180} cy={100} rx={110} ry={28} fill={COLORS.paper} />
-              {Array.from({ length: 15 }, (_, i) => <rect key={i} x={75 + (i % 8) * 25}
-                y={164 + Math.floor(i / 8) * 24} width={12 + i % 4} height={4} rx={2}
+              {/* Запись ниже фирменного названия: «ДОШИК» остаётся видимым. */}
+              <rect x={78} y={210} width={204} height={34} rx={6} fill={COLORS.paper} />
+              {Array.from({ length: 15 }, (_, i) => <rect key={i} x={88 + (i % 8) * 23}
+                y={219 + Math.floor(i / 8) * 12} width={12 + i % 4} height={3} rx={1.5}
                 fill={COLORS.hair} opacity={frame >= sec(13.5 + i * 0.14) ? 1 : 0}
-                transform={`rotate(${i % 2 ? -12 : 10} ${75 + (i % 8) * 25} ${164 + Math.floor(i / 8) * 24})`} />)}
+                transform={`rotate(${i % 2 ? -12 : 10} ${88 + (i % 8) * 23} ${219 + Math.floor(i / 8) * 12})`} />)}
             </svg>
           </div>
           <svg width={30} height={95} viewBox="0 0 30 95" role="img" aria-label="Маркер"
