@@ -8,7 +8,8 @@ import type { Expression } from "../characters/Hero";
 import { Captions, isTalking } from "../components/Captions";
 import type { Caption } from "../components/Captions";
 import { DayCounter } from "../components/DayCounter";
-import { sec, VIDEO } from "../config/video";
+import { Camera } from "../components/Camera";
+import { COLORS, sec, VIDEO } from "../config/video";
 import { Room } from "../scenes/Room";
 
 export const EP00_DURATION = sec(10);
@@ -57,12 +58,17 @@ export const Ep00Test: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Лёгкий наезд камеры на протяжении всего ролика
-  const zoom = interpolate(frame, [0, EP00_DURATION], [1, 1.05]);
-
   return (
-    <AbsoluteFill style={{ backgroundColor: "#000" }}>
-      <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: "50% 40%" }}>
+    <AbsoluteFill style={{ backgroundColor: COLORS.night }}>
+      <Camera
+        transformOrigin="50% 40%"
+        keyframes={[
+          { frame: 0, zoom: 1 },
+          { frame: sec(3), zoom: 1.15, x: -24, y: 18 },
+          { frame: sec(7), zoom: 1.04, x: 0, y: 0 },
+        ]}
+        shakes={[{ from: sec(1.8), durationInFrames: sec(0.6), strength: 16, seed: "ep00" }]}
+      >
         <Room calendarDay={30} />
         <div
           style={{
@@ -83,7 +89,7 @@ export const Ep00Test: React.FC = () => {
             bob={breathe(frame, fps * 2) * 6}
           />
         </div>
-      </AbsoluteFill>
+      </Camera>
 
       <DayCounter day={1} progress={progress} />
       <Captions captions={CAPTIONS} />
