@@ -2,20 +2,15 @@
 import React from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { COLORS, FONTS } from "../config/video";
+import { getCaptionWords } from "../animation/captions";
+import type { Caption } from "../animation/captions";
 
-export type Caption = {
-  /** Текст реплики */
-  text: string;
-  /** Кадр начала */
-  from: number;
-  /** Кадр конца (не включительно) */
-  to: number;
-  /** Слова, которые выделяются акцентным цветом */
-  accent?: string[];
-};
+export type { Caption } from "../animation/captions";
 
 type Props = {
-  captions: Caption[];
+  captions: readonly Caption[];
+  /** По умолчанию прежняя реплика целиком; новый режим накапливает слова. */
+  mode?: "sentence" | "word-by-word";
   /** Отступ сверху до блока субтитров, px */
   top?: number;
   fontSize?: number;
@@ -23,7 +18,7 @@ type Props = {
 
 const norm = (w: string) => w.toLowerCase().replace(/[.,!?…:;«»"—-]/g, "");
 
-export const Captions: React.FC<Props> = ({ captions, top = 1330, fontSize = 118 }) => {
+export const Captions: React.FC<Props> = ({ captions, mode = "sentence", top = 1330, fontSize = 118 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const active = captions.find((c) => frame >= c.from && frame < c.to);
@@ -31,6 +26,9 @@ export const Captions: React.FC<Props> = ({ captions, top = 1330, fontSize = 118
 
   const pop = spring({ frame: frame - active.from, fps, config: { damping: 14, stiffness: 220 } });
   const accent = new Set((active.accent ?? []).map(norm));
+  const words = mode === "word-by-word"
+    ? getCaptionWords(active)
+    : active.text.split(" ").map((text) => ({ text, from: active.from, to: active.to }));
 
   return (
     <div
@@ -58,13 +56,25 @@ export const Captions: React.FC<Props> = ({ captions, top = 1330, fontSize = 118
           textShadow: `0 8px 0 ${COLORS.captionStroke}`,
         }}
       >
-        {active.text.split(" ").map((word, i) => (
+        {words.map((word, i) => (
+          <React.Fragment key={i}>
           <span
-            key={i}
-            style={{ color: accent.has(norm(word)) ? COLORS.captionAccent : COLORS.captionMain }}
+            style={{
+              color: accent.has(norm(word.text)) || (mode === "word-by-word" && frame >= word.from && frame < word.to)
+                ? COLORS.captionAccent : COLORS.captionMain,
+              ...(mode === "word-by-word" ? {
+                display: "inline-block",
+                visibility: frame >= word.from ? "visible" : "hidden",
+                opacity: spring({ frame: frame - word.from, fps, config: { damping: 18, stiffness: 260 } }),
+              } : {}),
+            }}
           >
-            {word}{" "}
+            {word.text}
+            {mode === "sentence" ? " " : null}
           </span>
+          {/* Пробел вне inline-block позволяет переносить слова без скачков. */}
+          {mode === "word-by-word" ? " " : null}
+          </React.Fragment>
         ))}
       </div>
     </div>
@@ -72,5 +82,5 @@ export const Captions: React.FC<Props> = ({ captions, top = 1330, fontSize = 118
 };
 
 /** Говорит ли персонаж на этом кадре (есть ли активная реплика) */
-export const isTalking = (captions: Caption[], frame: number) =>
+export const isTalking = (captions: readonly Caption[], frame: number) =>
   captions.some((c) => frame >= c.from && frame < c.to);

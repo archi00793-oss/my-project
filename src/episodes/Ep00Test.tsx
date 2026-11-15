@@ -9,6 +9,7 @@ import { Captions, isTalking } from "../components/Captions";
 import type { Caption } from "../components/Captions";
 import { DayCounter } from "../components/DayCounter";
 import { Transitions } from "../components/Transitions";
+import { useSrtCaptions } from "../components/useSrtCaptions";
 import { COLORS, FONTS, sec, VIDEO } from "../config/video";
 import { Room } from "../scenes/Room";
 
@@ -17,11 +18,8 @@ export const EP00_DURATION = SHOT_DURATION * 4;
 const HERO_WIDTH = 640;
 const LABELS = ["КАМЕРА · НАЕЗД И ТРЯСКА", "ВСПЫШКА · СМЕНА СЦЕНЫ", "БЫСТРЫЙ НАЕЗД", "ШТОРКА · НОВАЯ СЦЕНА"];
 
-const CAPTIONS: Caption[] = [
+const LEGACY_CAPTIONS: Caption[] = [
   { text: "Это тестовая сцена", from: sec(0.3), to: sec(2.4), accent: ["тестовая"] },
-  { text: "Привет! Я\u00A0— герой нашего сериала", from: sec(2.7), to: sec(4.8), accent: ["герой"] },
-  { text: "До цели 30\u00A0дней", from: sec(5.2), to: sec(7.3), accent: ["30\u00A0дней"] },
-  { text: "Поехали!", from: sec(7.8), to: sec(10), accent: ["поехали"] },
 ];
 
 const TestShot: React.FC<{ variant: number; talking: boolean }> = ({ variant, talking }) => {
@@ -63,8 +61,10 @@ const TestShot: React.FC<{ variant: number; talking: boolean }> = ({ variant, ta
 
 export const Ep00Test: React.FC = () => {
   const frame = useCurrentFrame();
-  const talking = isTalking(CAPTIONS, frame);
+  const imported = useSrtCaptions("ep00-engine.srt");
+  const talking = isTalking(LEGACY_CAPTIONS, frame) || isTalking(imported ?? [], frame);
   const shot = Math.min(3, Math.floor(frame / SHOT_DURATION));
+  if (imported === null) return null;
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.night }}>
       <Transitions scenes={[
@@ -79,7 +79,8 @@ export const Ep00Test: React.FC = () => {
         borderRadius: 18, backgroundColor: COLORS.badgeBg, color: COLORS.captionMain,
         fontFamily: FONTS.caption, fontWeight: 700, fontSize: 44, textAlign: "center",
       }}>{LABELS[shot]}</div>
-      <Captions captions={CAPTIONS} fontSize={100} />
+      <Captions captions={LEGACY_CAPTIONS} fontSize={100} />
+      <Captions captions={imported} mode="word-by-word" fontSize={100} />
     </AbsoluteFill>
   );
 };
