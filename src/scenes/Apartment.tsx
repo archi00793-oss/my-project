@@ -49,6 +49,19 @@ export const Apartment: React.FC<ApartmentProps> = ({ view = "wide", tvContent, 
       <rect x={302} y={250} width={12} height={205} fill={COLORS.cabinetShade} />
       <rect x={42} y={449} width={502} height={24} rx={7} fill={COLORS.counter} />
 
+      {/* Небольшая картина с парусником оживляет стену над кухней. */}
+      <rect x={122} y={581} width={302} height={236} rx={13} fill={COLORS.apartmentWallShade} />
+      <rect x={116} y={575} width={302} height={236} rx={11} fill={COLORS.doorWood} />
+      <rect x={131} y={590} width={272} height={206} rx={5} fill={COLORS.paper} />
+      <rect x={145} y={604} width={244} height={178} rx={3} fill={COLORS.moon} />
+      <circle cx={326} cy={644} r={24} fill={COLORS.courier} />
+      <path d="M145 712 Q206 697 267 712 T389 712 V782 H145Z" fill={COLORS.blanket} />
+      <path d="M145 750 Q206 736 267 750 T389 750 V782 H145Z" fill={COLORS.blanketShade} />
+      <path d="M223 717 H299 L286 733 H240Z" fill={COLORS.doorInset} />
+      <rect x={261} y={637} width={5} height={81} rx={2.5} fill={COLORS.doorWood} />
+      <path d="M255 646 L255 709 H211Z" fill={COLORS.paper} />
+      <path d="M272 668 L301 709 H272Z" fill={COLORS.counter} />
+
       {/* Единственное окно: ночное небо и силуэты соседнего дома. */}
       <rect x={527} y={525} width={260} height={348} rx={18} fill={COLORS.apartmentWallShade} />
       <rect x={540} y={538} width={234} height={322} rx={11} fill={COLORS.apartmentTrim} />
@@ -88,16 +101,15 @@ export const Apartment: React.FC<ApartmentProps> = ({ view = "wide", tvContent, 
       <rect x={307} y={1095} width={16} height={42} rx={7} fill={COLORS.counter} />
       <rect x={304} y={1091} width={37} height={9} rx={4.5} fill={COLORS.counter} />
 
-      {/* Узкая кровать вплотную к кухне и тумбе. */}
-      <g transform="translate(-400 0)">
-      <rect x={825} y={1195} width={310} height={251} rx={27} fill={COLORS.doorInset} />
-      <rect x={807} y={1293} width={336} height={139} rx={32} fill={COLORS.grayHairShadow} />
-      <rect x={864} y={1260} width={192} height={79} rx={30} fill={COLORS.paper} />
-      <rect x={799} y={1350} width={350} height={114} rx={29} fill={COLORS.blanket} />
-      <path d="M818 1350 H856 V1420 Q865 1443 897 1464 H854 Q818 1441 818 1418Z" fill={COLORS.blanketShade} />
-      <rect x={815} y={1452} width={334} height={28} rx={10} fill={COLORS.doorWood} />
-      <rect x={830} y={1472} width={22} height={47} rx={7} fill={COLORS.doorInset} />
-      </g>
+      {/* Узкая кровать: отдельный силуэт и просвет до тумбы справа. */}
+      <rect x={402} y={1205} width={212} height={267} rx={27} fill={COLORS.blanketShade} />
+      <rect x={392} y={1275} width={232} height={274} rx={30} fill={COLORS.grayHairShadow} />
+      <rect x={414} y={1290} width={188} height={74} rx={27} fill={COLORS.paper} />
+      <rect x={392} y={1384} width={232} height={168} rx={25} fill={COLORS.blanket} />
+      <path d="M408 1384 H437 V1504 Q437 1530 461 1552 H428 Q408 1532 408 1504Z" fill={COLORS.blanketShade} />
+      <rect x={400} y={1540} width={216} height={27} rx={10} fill={COLORS.plasticLight} />
+      <rect x={410} y={1560} width={18} height={43} rx={6} fill={COLORS.plastic} />
+      <rect x={588} y={1560} width={18} height={43} rx={6} fill={COLORS.plastic} />
 
       {/* Тумба с пустой полкой: видик появится при сборке сцены 4. */}
       <rect x={643} y={1152} width={397} height={27} rx={9} fill={COLORS.cardboardLight} />
