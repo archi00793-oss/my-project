@@ -1,98 +1,85 @@
-// Тестовая сцена: проверяем персонажа, комнату, субтитры и счётчик.
-// Шаблон для настоящих серий: скопируйте файл, поменяйте реплики и позы.
+// Демонстрация универсальных компонентов. Внешность Hero здесь не меняется.
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { blink, breathe, ease, mouthFlap } from "../animation/motion";
 import { Hero, HERO_ASPECT } from "../characters/Hero";
 import type { Expression } from "../characters/Hero";
+import { Camera } from "../components/Camera";
 import { Captions, isTalking } from "../components/Captions";
 import type { Caption } from "../components/Captions";
 import { DayCounter } from "../components/DayCounter";
-import { Camera } from "../components/Camera";
-import { COLORS, sec, VIDEO } from "../config/video";
+import { Transitions } from "../components/Transitions";
+import { COLORS, FONTS, sec, VIDEO } from "../config/video";
 import { Room } from "../scenes/Room";
 
-export const EP00_DURATION = sec(10);
+const SHOT_DURATION = sec(2.5);
+export const EP00_DURATION = SHOT_DURATION * 4;
+const HERO_WIDTH = 640;
+const LABELS = ["КАМЕРА · НАЕЗД И ТРЯСКА", "ВСПЫШКА · СМЕНА СЦЕНЫ", "БЫСТРЫЙ НАЕЗД", "ШТОРКА · НОВАЯ СЦЕНА"];
 
 const CAPTIONS: Caption[] = [
-  { text: "Это тестовая сцена", from: sec(0.3), to: sec(2), accent: ["тестовая"] },
-  { text: "Привет! Я\u00A0— герой нашего сериала", from: sec(2), to: sec(5), accent: ["герой"] },
-  { text: "До цели 30\u00A0дней", from: sec(5), to: sec(7.6), accent: ["30\u00A0дней"] },
-  { text: "Поехали!", from: sec(7.6), to: sec(10), accent: ["поехали"] },
+  { text: "Это тестовая сцена", from: sec(0.3), to: sec(2.4), accent: ["тестовая"] },
+  { text: "Привет! Я\u00A0— герой нашего сериала", from: sec(2.7), to: sec(4.8), accent: ["герой"] },
+  { text: "До цели 30\u00A0дней", from: sec(5.2), to: sec(7.3), accent: ["30\u00A0дней"] },
+  { text: "Поехали!", from: sec(7.8), to: sec(10), accent: ["поехали"] },
 ];
 
-const HERO_WIDTH = 640;
+const TestShot: React.FC<{ variant: number; talking: boolean }> = ({ variant, talking }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const raise = ease(frame, sec(0.15), sec(0.7));
+  const expression: Expression = variant === 2 ? "surprised" : variant === 0 ? "neutral" : "happy";
+  return (
+    <Camera
+      transformOrigin="50% 40%"
+      keyframes={[
+        { frame: 0, zoom: 1.04 },
+        { frame: sec(1.3), zoom: 1.14, x: variant % 2 === 0 ? -24 : 24, y: 18 },
+        { frame: SHOT_DURATION - 1, zoom: 1.04, x: 0, y: 0 },
+      ]}
+      shakes={variant === 0 ? [{ from: sec(1.6), durationInFrames: sec(0.5), strength: 16, seed: "ep00" }] : []}
+    >
+      <Room calendarDay={30 - variant} night={variant % 2 === 0} />
+      <div style={{
+        position: "absolute",
+        left: (VIDEO.width - HERO_WIDTH) / 2,
+        top: 1530 - HERO_WIDTH * HERO_ASPECT * (1060 / 1100),
+      }}>
+        <Hero
+          width={HERO_WIDTH}
+          eyesOpen={blink(frame)}
+          mouthOpen={mouthFlap(frame, talking)}
+          expression={expression}
+          armLeft={variant === 3 ? 150 * raise : 0}
+          armRight={variant === 1 ? raise * (135 + 18 * Math.sin(frame * 0.45)) : variant === 3 ? 150 * raise : 0}
+          lookX={variant === 2 ? raise : 0}
+          headTilt={variant === 2 ? 5 * raise : variant === 1 ? -4 * raise : 0}
+          bob={breathe(frame, fps * 2) * 6}
+        />
+      </div>
+    </Camera>
+  );
+};
 
 export const Ep00Test: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  // Поза и эмоция по отрезкам времени
-  let expression: Expression = "neutral";
-  let armRight = 0;
-  let armLeft = 0;
-  let lookX = 0;
-  let headTilt = 0;
-
-  if (frame >= sec(2) && frame < sec(5)) {
-    // машет рукой
-    expression = "happy";
-    const raise = ease(frame, sec(2), sec(2.4));
-    armRight = raise * (135 + 18 * Math.sin(frame * 0.45));
-    headTilt = -4 * raise;
-  } else if (frame >= sec(5) && frame < sec(7.6)) {
-    // смотрит на календарь
-    expression = "surprised";
-    lookX = ease(frame, sec(5), sec(5.4));
-    headTilt = 5 * lookX;
-  } else if (frame >= sec(7.6)) {
-    // обе руки вверх
-    expression = "happy";
-    const up = ease(frame, sec(7.6), sec(8));
-    armLeft = 150 * up;
-    armRight = 150 * up;
-  }
-
-  const progress = interpolate(frame, [sec(7.6), sec(9)], [0, 3], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
+  const talking = isTalking(CAPTIONS, frame);
+  const shot = Math.min(3, Math.floor(frame / SHOT_DURATION));
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.night }}>
-      <Camera
-        transformOrigin="50% 40%"
-        keyframes={[
-          { frame: 0, zoom: 1 },
-          { frame: sec(3), zoom: 1.15, x: -24, y: 18 },
-          { frame: sec(7), zoom: 1.04, x: 0, y: 0 },
-        ]}
-        shakes={[{ from: sec(1.8), durationInFrames: sec(0.6), strength: 16, seed: "ep00" }]}
-      >
-        <Room calendarDay={30} />
-        <div
-          style={{
-            position: "absolute",
-            left: (VIDEO.width - HERO_WIDTH) / 2,
-            top: 1530 - HERO_WIDTH * HERO_ASPECT * (1060 / 1100),
-          }}
-        >
-          <Hero
-            width={HERO_WIDTH}
-            eyesOpen={blink(frame)}
-            mouthOpen={mouthFlap(frame, isTalking(CAPTIONS, frame))}
-            expression={expression}
-            armLeft={armLeft}
-            armRight={armRight}
-            lookX={lookX}
-            headTilt={headTilt}
-            bob={breathe(frame, fps * 2) * 6}
-          />
-        </div>
-      </Camera>
-
-      <DayCounter day={1} progress={progress} />
-      <Captions captions={CAPTIONS} />
+      <Transitions scenes={[
+        { id: "camera", durationInFrames: SHOT_DURATION, content: <TestShot variant={0} talking={talking} /> },
+        { id: "flash", durationInFrames: SHOT_DURATION, transition: { type: "flash", durationInFrames: sec(0.4) }, content: <TestShot variant={1} talking={talking} /> },
+        { id: "zoom", durationInFrames: SHOT_DURATION, transition: { type: "zoom", durationInFrames: sec(0.4) }, content: <TestShot variant={2} talking={talking} /> },
+        { id: "wipe", durationInFrames: SHOT_DURATION, transition: { type: "wipe", durationInFrames: sec(0.6) }, content: <TestShot variant={3} talking={talking} /> },
+      ]} />
+      <DayCounter day={1} progress={interpolate(frame, [0, EP00_DURATION - 1], [0, 3])} />
+      <div style={{
+        position: "absolute", top: 320, left: 50, right: 50, padding: "14px 20px",
+        borderRadius: 18, backgroundColor: COLORS.badgeBg, color: COLORS.captionMain,
+        fontFamily: FONTS.caption, fontWeight: 700, fontSize: 44, textAlign: "center",
+      }}>{LABELS[shot]}</div>
+      <Captions captions={CAPTIONS} fontSize={100} />
     </AbsoluteFill>
   );
 };
