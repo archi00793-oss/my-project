@@ -1,5 +1,5 @@
 import React from "react";
-import { Transitions } from "../components/Transitions";
+import { Series, useVideoConfig } from "remotion";
 import { Scene01, SCENE01_DURATION } from "./ep01/Scene01";
 import { Scene02, SCENE02_DURATION } from "./ep01/Scene02";
 import { Scene03, SCENE03_DURATION } from "./ep01/Scene03";
@@ -15,16 +15,39 @@ export const EP01_DURATION = SCENE01_DURATION + SCENE02_DURATION + SCENE03_DURAT
   + SCENE04_DURATION + SCENE05_DURATION + SCENE06_DURATION
   + SCENE07_DURATION + SCENE08_DURATION + SCENE09_DURATION;
 
-export const Ep01Kasseta: React.FC = () => (
-  <Transitions scenes={[
-    { id: "scene01", name: "1. Хук", durationInFrames: SCENE01_DURATION, content: <Scene01 /> },
-    { id: "scene02", name: "2. Кто такой Лёха", durationInFrames: SCENE02_DURATION, content: <Scene02 /> },
-    { id: "scene03", name: "3. Коробка", durationInFrames: SCENE03_DURATION, content: <Scene03 /> },
-    { id: "scene04", name: "4. Видик", durationInFrames: SCENE04_DURATION, content: <Scene04 /> },
-    { id: "scene05", name: "5. Дед", durationInFrames: SCENE05_DURATION, content: <Scene05 /> },
-    { id: "scene06", name: "6. Жмыхов", durationInFrames: SCENE06_DURATION, content: <Scene06 /> },
-    { id: "scene07", name: "7. Дорога", durationInFrames: SCENE07_DURATION, content: <Scene07 /> },
-    { id: "scene08", name: "8. Механика", durationInFrames: SCENE08_DURATION, content: <Scene08 /> },
-    { id: "scene09", name: "9. Задел", durationInFrames: SCENE09_DURATION, content: <Scene09 /> },
-  ]} />
-);
+export const Ep01Kasseta: React.FC = () => {
+  const { fps } = useVideoConfig();
+
+  // По сценарию — прямые склейки без перекрытия; финал в чёрное задан в Scene09.
+  return (
+    <Series>
+      <Series.Sequence name="1. Хук" durationInFrames={SCENE01_DURATION} premountFor={fps}>
+        <Scene01 />
+      </Series.Sequence>
+      <Series.Sequence name="2. Кто такой Лёха" durationInFrames={SCENE02_DURATION} premountFor={fps}>
+        <Scene02 />
+      </Series.Sequence>
+      <Series.Sequence name="3. Коробка" durationInFrames={SCENE03_DURATION} premountFor={fps}>
+        <Scene03 />
+      </Series.Sequence>
+      <Series.Sequence name="4. Видик" durationInFrames={SCENE04_DURATION} premountFor={fps}>
+        <Scene04 />
+      </Series.Sequence>
+      <Series.Sequence name="5. Дед" durationInFrames={SCENE05_DURATION} premountFor={fps}>
+        <Scene05 />
+      </Series.Sequence>
+      <Series.Sequence name="6. Жмыхов" durationInFrames={SCENE06_DURATION} premountFor={fps}>
+        <Scene06 />
+      </Series.Sequence>
+      <Series.Sequence name="7. Дорога" durationInFrames={SCENE07_DURATION} premountFor={fps}>
+        <Scene07 />
+      </Series.Sequence>
+      <Series.Sequence name="8. Механика" durationInFrames={SCENE08_DURATION} premountFor={fps}>
+        <Scene08 />
+      </Series.Sequence>
+      <Series.Sequence name="9. Задел" durationInFrames={SCENE09_DURATION} premountFor={fps}>
+        <Scene09 />
+      </Series.Sequence>
+    </Series>
+  );
+};
