@@ -10,6 +10,9 @@ export type LyokhaProps = FaceProps & {
   /** Подъём рук наружу в градусах, 0 — опущены. */
   armLeft?: number;
   armRight?: number;
+  /** Сгиб локтей внутрь; 0 сохраняет прежнюю прямую руку. */
+  bendLeft?: number;
+  bendRight?: number;
   headTilt?: number;
   bob?: number;
   width?: number;
@@ -19,7 +22,7 @@ export type LyokhaProps = FaceProps & {
 export const LYOKHA_ASPECT = 1100 / 600;
 
 export const Lyokha: React.FC<LyokhaProps> = ({
-  jacket = true, holdingPhone = true, armLeft = 0, armRight = 0,
+  jacket = true, holdingPhone = true, armLeft = 0, armRight = 0, bendLeft = 0, bendRight = 0,
   headTilt = 0, bob = 0, width = 600, style, ...face
 }) => (
   <svg viewBox="0 0 600 1100" width={width} height={width * LYOKHA_ASPECT}
@@ -31,8 +34,8 @@ export const Lyokha: React.FC<LyokhaProps> = ({
     <rect x={315} y={1067} width={95} height={10} rx={5} fill={COLORS.paper} />
     <g transform={`translate(0 ${bob})`}>
       <LyokhaTorso jacket={jacket} />
-      <LyokhaArm side="left" angle={armLeft} jacket={jacket} />
-      <LyokhaArm side="right" angle={armRight} jacket={jacket} holdingPhone={holdingPhone} />
+      <LyokhaArm side="left" angle={armLeft} bend={bendLeft} jacket={jacket} />
+      <LyokhaArm side="right" angle={armRight} bend={bendRight} jacket={jacket} holdingPhone={holdingPhone} />
       <LyokhaHead tilt={headTilt} {...face} />
     </g>
   </svg>
