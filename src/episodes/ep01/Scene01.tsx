@@ -12,7 +12,7 @@ export const FIRST_TAPE_LABEL = "ОТКРОЙ, КОГДА МЕНЯ НЕ СТАН
 const captions: Caption[] = [
   { text: "Эту кассету Лёха получил", from: 0, to: sec(1.5) },
   { text: "через неделю", from: sec(1.5), to: sec(2.6) },
-  { text: "после похорон деда.", from: sec(2.6), to: SCENE01_DURATION, accent: ["похорон деда"] },
+  { text: "после похорон деда.", from: sec(2.6), to: SCENE01_DURATION, accent: ["после", "похорон деда"] },
 ];
 
 /** 0:00–0:04. Наезд только на кассету; субтитры остаются неподвижными. */
