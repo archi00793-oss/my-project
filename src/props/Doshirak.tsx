@@ -8,7 +8,7 @@ export type DoshirakProps = PropProps & {
 };
 
 export const Doshirak: React.FC<DoshirakProps> = ({ note, ...props }) => (
-  <PropSvg canvas={[360, 280]} label="Доширак" {...props}>
+  <PropSvg canvas={[360, 280]} label="Дошик" {...props}>
     <path d="M36 98 L324 98 L296 246 Q180 272 64 246Z" fill={COLORS.paper} />
     <path d="M48 140 L312 140 L299 217 Q180 241 61 217Z" fill={COLORS.calendarRed} />
     <ellipse cx={180} cy={100} rx={149} ry={55} fill={COLORS.cardboardLight} />
@@ -18,7 +18,7 @@ export const Doshirak: React.FC<DoshirakProps> = ({ note, ...props }) => (
       fill={COLORS.courierShadow} />)}
     <rect x={126} y={75} width={13} height={12} rx={3} fill={COLORS.forest} />
     <rect x={214} y={102} width={15} height={12} rx={3} fill={COLORS.forest} />
-    <text x={180} y={193} textAnchor="middle" fontSize={36} fontFamily={FONTS.caption} fill={COLORS.paper}>ДОШИРАК</text>
+    <text x={180} y={193} textAnchor="middle" fontSize={36} fontFamily={FONTS.caption} fill={COLORS.paper}>ДОШИК</text>
     {note && <g>
       <rect x={61} y={144} width={238} height={67} rx={8} fill={COLORS.paper} />
       <text x={180} y={185} textAnchor="middle" fontSize={22} fontFamily={FONTS.caption}

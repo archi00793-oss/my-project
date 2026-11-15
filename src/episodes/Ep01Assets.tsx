@@ -110,7 +110,7 @@ export const Ep01Assets: React.FC = () => (
       </div>
       <div>
         <div style={{ height: 189, display: "flex", alignItems: "center", justifyContent: "center" }}><Doshirak width={230} /></div>
-        <Label>ДОШИРАК</Label>
+        <Label>ДОШИК</Label>
       </div>
       <div>
         <div style={{ height: 189, display: "flex", alignItems: "center", justifyContent: "center" }}><Scooter width={211} /></div>
