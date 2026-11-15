@@ -13,6 +13,9 @@ import { Scene03, SCENE03_DURATION } from "./episodes/ep01/Scene03";
 import { Scene04, SCENE04_DURATION } from "./episodes/ep01/Scene04";
 import { Scene05, SCENE05_DURATION } from "./episodes/ep01/Scene05";
 import { Scene06, SCENE06_DURATION } from "./episodes/ep01/Scene06";
+import { Scene07, SCENE07_DURATION } from "./episodes/ep01/Scene07";
+import { Scene08, SCENE08_DURATION } from "./episodes/ep01/Scene08";
+import { Scene09, SCENE09_DURATION } from "./episodes/ep01/Scene09";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -47,6 +50,12 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="Ep01-Scene05" component={Scene05} durationInFrames={SCENE05_DURATION}
         fps={VIDEO.fps} width={VIDEO.width} height={VIDEO.height} />
       <Composition id="Ep01-Scene06" component={Scene06} durationInFrames={SCENE06_DURATION}
+        fps={VIDEO.fps} width={VIDEO.width} height={VIDEO.height} />
+      <Composition id="Ep01-Scene07" component={Scene07} durationInFrames={SCENE07_DURATION}
+        fps={VIDEO.fps} width={VIDEO.width} height={VIDEO.height} />
+      <Composition id="Ep01-Scene08" component={Scene08} durationInFrames={SCENE08_DURATION}
+        fps={VIDEO.fps} width={VIDEO.width} height={VIDEO.height} />
+      <Composition id="Ep01-Scene09" component={Scene09} durationInFrames={SCENE09_DURATION}
         fps={VIDEO.fps} width={VIDEO.width} height={VIDEO.height} />
     </Folder>
     {/* Новые серии добавляйте ниже: id в формате Ep01-Название */}
