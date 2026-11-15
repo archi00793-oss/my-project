@@ -1,0 +1,118 @@
+import React from "react";
+import { COLORS, VIDEO } from "../config/video";
+import { Scooter, Tv } from "../props";
+
+export type ApartmentView = "wide" | "sink" | "tv";
+
+export type ApartmentProps = {
+  /** Общий план, у раковины или у телевизора. */
+  view?: ApartmentView;
+  /** Содержимое существующего компонента Tv; без него экран чёрный. */
+  tvContent?: React.ReactNode;
+  tvNoise?: number;
+};
+
+const { width: W, height: H } = VIDEO;
+const FLOOR_Y = 1450;
+
+/** Окна одной декорации. Координаты предметов не меняются при смене ракурса. */
+export const APARTMENT_VIEWS = {
+  wide: { x: 0, y: 0, width: W, height: H },
+  sink: { x: -55, y: 440, width: W / 1.5, height: H / 1.5 },
+  tv: { x: 550, y: 460, width: W / 1.6, height: H / 1.6 },
+} as const satisfies Record<ApartmentView, { x: number; y: number; width: number; height: number }>;
+
+/** Тесная однушка ночью: кухня и кровать находятся в одной комнате. */
+export const Apartment: React.FC<ApartmentProps> = ({ view = "wide", tvContent, tvNoise = 0 }) => {
+  const camera = APARTMENT_VIEWS[view];
+  return (
+    <svg
+      viewBox={`${camera.x} ${camera.y} ${camera.width} ${camera.height}`}
+      width={W} height={H} style={{ position: "absolute", inset: 0 }}
+      role="img" aria-label={`Однушка ночью: ${view === "wide" ? "общий план" : view === "sink" ? "у раковины" : "у телевизора"}`}
+    >
+      {/* Декорация продолжается за кадром для обоих укрупнений. */}
+      <rect x={-W} y={-H} width={W * 3} height={H + FLOOR_Y} fill={COLORS.apartmentWall} />
+      <rect x={-W} y={FLOOR_Y} width={W * 3} height={H} fill={COLORS.floor} />
+      <rect x={-W} y={FLOOR_Y - 22} width={W * 3} height={22} fill={COLORS.apartmentTrim} />
+      <rect x={1030} y={0} width={W} height={FLOOR_Y - 22} fill={COLORS.apartmentWallShade} />
+      {[1560, 1710, 1880].map((y) => (
+        <rect key={y} x={-W} y={y} width={W * 3} height={6} fill={COLORS.floorLine} />
+      ))}
+
+      {/* Антресоль: открытая ниша справа оставлена для подвижного реквизита. */}
+      <rect x={48} y={240} width={490} height={237} rx={20} fill={COLORS.apartmentWallShade} />
+      <rect x={60} y={250} width={465} height={205} rx={12} fill={COLORS.doorInset} />
+      <rect x={60} y={250} width={240} height={205} rx={12} fill={COLORS.cabinet} />
+      <rect x={80} y={270} width={200} height={163} rx={9} fill={COLORS.cabinetShade} />
+      <rect x={253} y={334} width={10} height={43} rx={5} fill={COLORS.counter} />
+      <rect x={302} y={250} width={12} height={205} fill={COLORS.cabinetShade} />
+      <rect x={42} y={449} width={502} height={24} rx={7} fill={COLORS.counter} />
+
+      {/* Единственное окно: ночное небо и силуэты соседнего дома. */}
+      <rect x={527} y={525} width={260} height={348} rx={18} fill={COLORS.apartmentWallShade} />
+      <rect x={540} y={538} width={234} height={322} rx={11} fill={COLORS.apartmentTrim} />
+      <rect x={553} y={551} width={208} height={296} rx={6} fill={COLORS.night} />
+      <circle cx={708} cy={606} r={25} fill={COLORS.moon} />
+      <circle cx={696} cy={596} r={24} fill={COLORS.night} />
+      <path d="M553 779 V735 H603 V704 H659 V757 H716 V723 H761 V847 H553Z" fill={COLORS.monitorFrame} />
+      {[[567, 755], [620, 729], [680, 794], [733, 748]].map(([x, y]) => (
+        <rect key={x} x={x} y={y} width={9} height={15} rx={2} fill={COLORS.moon} />
+      ))}
+      <rect x={650} y={547} width={13} height={305} fill={COLORS.apartmentTrim} />
+      <rect x={523} y={851} width={268} height={20} rx={6} fill={COLORS.counter} />
+
+      {/* Кухонный уголок: две конфорки, фартук, раковина и нижние шкафы. */}
+      <rect x={-40} y={934} width={415} height={237} rx={12} fill={COLORS.cabinetShade} />
+      {[1000, 1070, 1140].map((y) => (
+        <rect key={y} x={-40} y={y} width={415} height={4} fill={COLORS.cabinet} />
+      ))}
+      {[50, 150, 250, 350].map((x) => (
+        <rect key={x} x={x} y={934} width={4} height={237} fill={COLORS.cabinet} />
+      ))}
+      <rect x={-25} y={1180} width={385} height={274} rx={12} fill={COLORS.cabinetShade} />
+      <rect x={-15} y={1200} width={160} height={232} rx={9} fill={COLORS.cabinet} />
+      <rect x={158} y={1200} width={184} height={232} rx={9} fill={COLORS.cabinet} />
+      <rect x={105} y={1220} width={25} height={9} rx={4.5} fill={COLORS.counter} />
+      <rect x={174} y={1220} width={25} height={9} rx={4.5} fill={COLORS.counter} />
+      <rect x={-32} y={1155} width={405} height={30} rx={10} fill={COLORS.counter} />
+      <rect x={-24} y={1142} width={121} height={20} rx={7} fill={COLORS.monitorFrame} />
+      <ellipse cx={12} cy={1144} rx={22} ry={8} fill={COLORS.plasticLight} />
+      <ellipse cx={65} cy={1144} rx={18} ry={7} fill={COLORS.plasticLight} />
+      <ellipse cx={225} cy={1154} rx={108} ry={29} fill={COLORS.sink} />
+      <ellipse cx={225} cy={1152} rx={87} ry={19} fill={COLORS.sinkInner} />
+      <ellipse cx={236} cy={1157} rx={12} ry={4} fill={COLORS.monitorFrame} />
+      {/* Кран собран заливками, без обводки. */}
+      <path d="M284 1138 V1062 Q284 1028 251 1028 Q218 1028 218 1062 V1082 H233 V1062 Q233 1044 251 1044 Q268 1044 268 1062 V1138Z" fill={COLORS.counter} />
+      <rect x={260} y={1130} width={37} height={16} rx={7} fill={COLORS.sink} />
+      <rect x={307} y={1095} width={16} height={42} rx={7} fill={COLORS.counter} />
+      <rect x={304} y={1091} width={37} height={9} rx={4.5} fill={COLORS.counter} />
+
+      {/* Узкая кровать вплотную к кухне и тумбе. */}
+      <g transform="translate(-400 0)">
+      <rect x={825} y={1195} width={310} height={251} rx={27} fill={COLORS.doorInset} />
+      <rect x={807} y={1293} width={336} height={139} rx={32} fill={COLORS.grayHairShadow} />
+      <rect x={864} y={1260} width={192} height={79} rx={30} fill={COLORS.paper} />
+      <rect x={799} y={1350} width={350} height={114} rx={29} fill={COLORS.blanket} />
+      <path d="M818 1350 H856 V1420 Q865 1443 897 1464 H854 Q818 1441 818 1418Z" fill={COLORS.blanketShade} />
+      <rect x={815} y={1452} width={334} height={28} rx={10} fill={COLORS.doorWood} />
+      <rect x={830} y={1472} width={22} height={47} rx={7} fill={COLORS.doorInset} />
+      </g>
+
+      {/* Тумба с пустой полкой: видик появится при сборке сцены 4. */}
+      <rect x={643} y={1152} width={397} height={27} rx={9} fill={COLORS.cardboardLight} />
+      <rect x={660} y={1179} width={365} height={258} rx={14} fill={COLORS.doorWood} />
+      <rect x={682} y={1197} width={321} height={96} rx={8} fill={COLORS.doorInset} />
+      <rect x={682} y={1313} width={321} height={98} rx={8} fill={COLORS.doorInset} />
+      <rect x={807} y={1331} width={70} height={10} rx={5} fill={COLORS.cardboardLight} />
+      <rect x={682} y={1430} width={22} height={39} rx={6} fill={COLORS.doorInset} />
+      <rect x={980} y={1430} width={22} height={39} rx={6} fill={COLORS.doorInset} />
+      <Tv x={650} y={882} width={380} noise={tvNoise}>
+        {tvContent ?? <div style={{ width: "100%", height: "100%", background: COLORS.black }} />}
+      </Tv>
+
+      {/* Самокат из общего набора ассетов, без перерисовки. */}
+      <Scooter x={15} y={1390} width={242} />
+    </svg>
+  );
+};

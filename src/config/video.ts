@@ -58,6 +58,25 @@ export const COLORS = {
   forest: "#345B50",
   forestDark: "#28463F",
 
+  // ЛЁХИНО: ночная однушка и лестничная площадка
+  black: "#000000",
+  apartmentWall: "#343E50",
+  apartmentWallShade: "#2B3444",
+  apartmentTrim: "#4C5767",
+  cabinet: "#627A79",
+  cabinetShade: "#49615F",
+  counter: "#A8B4AF",
+  sink: "#718991",
+  sinkInner: "#3B535F",
+  blanket: "#6D7E96",
+  blanketShade: "#53637B",
+  landingWall: "#707D78",
+  landingDado: "#465D58",
+  landingFloor: "#77776D",
+  landingStep: "#505D59",
+  doorWood: "#765342",
+  doorInset: "#604234",
+
   // интерфейс
   captionMain: "#FFFFFF",
   captionAccent: "#F5C33B",
