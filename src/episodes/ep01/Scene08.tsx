@@ -49,12 +49,12 @@ export const Scene08: React.FC = () => {
         <Lyokha width={570} jacket holdingPhone expression="confused" mouthOpen={0}
           lookX={0.6} headTilt={8} eyesOpen={blink(frame)} bob={breathe(frame) * 2}
           style={{ position: "absolute", left: 120, top: 490 }} />
-        <TapeBox width={500}
+        <TapeBox width={250}
           labels={["Когда приедешь", "Если придёт Жмыхов", "Когда станет совсем тяжело", "Когда влюбишься"]}
-          style={{ position: "absolute", left: 530, top: 980 }} />
+          style={{ position: "absolute", left: 810, top: 1288 }} />
       </Camera>
       <CashCounter />
-      <Captions captions={captions} fontSize={74} top={1430} />
+      <Captions captions={captions} fontSize={68} top={1540} />
     </AbsoluteFill>
   );
 };

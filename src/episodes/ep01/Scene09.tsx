@@ -25,17 +25,17 @@ export const Scene09: React.FC = () => {
     <AbsoluteFill>
       <Camera transformOrigin="50% 55%" keyframes={[
         { frame: 0, zoom: 1 },
-        { frame: TITLE_FROM - 1, zoom: 2, x: -360, y: -160 },
+        { frame: TITLE_FROM - 1, zoom: 3.2, x: -1160, y: -850 },
       ]}>
         <Apartment />
         <Vcr width={300} style={{ position: "absolute", left: 440, top: 1198 }} />
         <Lyokha width={570} jacket holdingPhone expression="serious" mouthOpen={0}
           lookX={1} headTilt={18} eyesOpen={blink(frame)} bob={breathe(frame) * 2}
           style={{ position: "absolute", left: 120, top: 490 }} />
-        <TapeBox width={500} labels={["Когда приедешь", "Когда станет совсем тяжело", "Когда влюбишься"]}
-          style={{ position: "absolute", left: 530, top: 980 }} />
-        <VhsTape width={440} label="Если придёт Жмыхов"
-          style={{ position: "absolute", left: 550, top: 930 }} />
+        <TapeBox width={250} labels={["Когда приедешь", "Когда станет совсем тяжело", "Когда влюбишься"]}
+          style={{ position: "absolute", left: 810, top: 1288 }} />
+        <VhsTape width={220} label="Если придёт Жмыхов"
+          style={{ position: "absolute", left: 820, top: 1263 }} />
       </Camera>
       <CashCounter settled />
       <Captions captions={captions} fontSize={82} top={1430} />

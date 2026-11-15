@@ -9,6 +9,12 @@ import { Apartment } from "../../scenes/Apartment";
 
 export const SCENE07_DURATION = sec(5);
 const BANK_FROM = sec(3.2);
+/** У Oswald буква «У» опускается ниже строки; в «рублей» оптически выравниваем её низ. */
+const alignRubleWord = (word: string): React.ReactNode => word === "рублей."
+  ? [...word].map((letter, i) => letter === "у"
+    ? <span key={i} style={{ display: "inline-block", transform: "scaleY(0.76)", transformOrigin: "50% 22%" }}>{letter}</span>
+    : letter)
+  : word;
 const captions: Caption[] = [
   { text: "Чтобы доехать,", from: 0, to: sec(1) },
   { text: "Лёхе нужно", from: sec(1), to: sec(1.8) },
@@ -64,7 +70,7 @@ export const Scene07: React.FC = () => {
           {frame < BANK_FROM ? <RouteScreen /> : <BankScreen />}
         </Phone>
       </Camera>
-      <Captions captions={captions} fontSize={82} top={1430} />
+      <Captions captions={captions} fontSize={82} top={1430} renderWord={alignRubleWord} />
     </AbsoluteFill>
   );
 };
