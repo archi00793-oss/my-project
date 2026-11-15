@@ -1,0 +1,12 @@
+export { VhsTape } from "./VhsTape";
+export type { VhsTapeProps } from "./VhsTape";
+export { TapeBox } from "./TapeBox";
+export type { TapeBoxProps } from "./TapeBox";
+export { Vcr } from "./Vcr";
+export { Tv } from "./Tv";
+export type { TvProps } from "./Tv";
+export { Phone } from "./Phone";
+export type { PhoneProps } from "./Phone";
+export { Doshirak } from "./Doshirak";
+export type { DoshirakProps } from "./Doshirak";
+export { Scooter } from "./Scooter";
