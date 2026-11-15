@@ -69,6 +69,7 @@ export const COLORS = {
   sink: "#718991",
   sinkInner: "#3B535F",
   blanket: "#6D7E96",
+  blanketLight: "#91A1B7",
   blanketShade: "#53637B",
   landingWall: "#707D78",
   landingDado: "#465D58",

@@ -115,31 +115,34 @@ export const Apartment: React.FC<ApartmentProps> = ({ view = "wide", tvContent, 
         {tvContent ?? <div style={{ width: "100%", height: "100%", background: COLORS.black }} />}
       </Tv>
 
-      {/* Кровать в правом углу: верх, боковина и торец дают объём плоскими заливками. */}
-      <path d="M858 1464 H1032 L1050 1608 Q1048 1634 1019 1634 H757 Q735 1634 746 1613Z" fill={COLORS.floorLine} />
-      <rect x={866} y={1390} width={17} height={95} rx={5} fill={COLORS.plastic} />
-      <rect x={1005} y={1390} width={17} height={95} rx={5} fill={COLORS.plastic} />
-      <rect x={777} y={1576} width={18} height={51} rx={5} fill={COLORS.plastic} />
-      <rect x={978} y={1576} width={18} height={51} rx={5} fill={COLORS.plastic} />
-      {/* Изголовье касается стены у угла комнаты. */}
-      <path d="M845 1365 V1200 Q845 1184 861 1184 H1012 Q1028 1184 1028 1200 V1365Z" fill={COLORS.plasticLight} />
-      <rect x={860} y={1201} width={152} height={96} rx={12} fill={COLORS.blanketShade} />
-      {/* Несущий каркас ниже матраса; передние ножки доходят до тени на полу. */}
-      <path d="M852 1334 H1034 L1014 1562 H756Z" fill={COLORS.plasticLight} />
-      <path d="M852 1334 L756 1562 V1587 L852 1359Z" fill={COLORS.plastic} />
-      <path d="M756 1562 H1014 V1577 Q1014 1587 1004 1587 H766 Q756 1587 756 1577Z" fill={COLORS.plasticLight} />
-      {/* Толщина матраса видна на длинной стороне и на торце. */}
-      <path d="M858 1304 L766 1529 V1558 L858 1333Z" fill={COLORS.grayHairShadow} />
-      <path d="M1028 1304 L1008 1529 V1558 L1028 1333Z" fill={COLORS.grayHairShadow} />
-      <path d="M766 1529 H1008 V1548 Q1008 1558 998 1558 H776 Q766 1558 766 1548Z" fill={COLORS.counter} />
-      <path d="M868 1304 H1018 Q1029 1304 1028 1315 L1008 1529 H766 L854 1315 Q858 1304 868 1304Z" fill={COLORS.grayHair} />
-      {/* Подушка и покрывало лежат в той же перспективе, что и поверхность матраса. */}
-      <path d="M878 1325 H996 Q1016 1325 1013 1338 L1008 1364 Q1005 1376 985 1376 H864 Q846 1376 851 1361 L861 1338 Q866 1325 878 1325Z" fill={COLORS.grayHairShadow} />
-      <path d="M878 1319 H996 Q1016 1319 1013 1332 L1008 1358 Q1005 1370 985 1370 H864 Q846 1370 851 1355 L861 1332 Q866 1319 878 1319Z" fill={COLORS.paper} />
-      <path d="M826 1384 H1021 L1008 1529 H766Z" fill={COLORS.blanket} />
-      <path d="M826 1384 L766 1529 V1558 L826 1413Z" fill={COLORS.blanketShade} />
-      <path d="M766 1529 H1008 V1548 Q1008 1558 998 1558 H776 Q766 1558 766 1548Z" fill={COLORS.blanketShade} />
-      <path d="M850 1390 H861 L812 1517 H800Z" fill={COLORS.blanketShade} />
+      {/* Ось кровати x=936: обе стороны одинаково сходятся к изголовью. */}
+      <path d="M848 1460 H1024 L1066 1601 H806Z" fill={COLORS.floorLine} />
+      <ellipse cx={936} cy={1594} rx={139} ry={32} fill={COLORS.floorLine} />
+      <rect x={821} y={1564} width={18} height={54} rx={5} fill={COLORS.plastic} />
+      <rect x={1033} y={1564} width={18} height={54} rx={5} fill={COLORS.plastic} />
+      {/* Мягкое изголовье у стены, с двумя утяжками в ткани. */}
+      <path d="M842 1344 V1213 Q842 1187 868 1187 H1004 Q1030 1187 1030 1213 V1344Z" fill={COLORS.blanketShade} />
+      <rect x={856} y={1202} width={160} height={94} rx={21} fill={COLORS.blanket} />
+      <circle cx={902} cy={1254} r={4} fill={COLORS.blanketShade} />
+      <circle cx={970} cy={1254} r={4} fill={COLORS.blanketShade} />
+      {/* Каркас и матрас симметричны относительно общей оси; углы скруглены. */}
+      <path d="M838 1320 H1034 L1070 1552 V1562 Q1070 1576 1056 1576 H816 Q802 1576 802 1562 V1552Z" fill={COLORS.plasticLight} />
+      <path d="M838 1320 L802 1552 V1562 Q802 1576 816 1576 H828 L852 1340Z" fill={COLORS.plastic} />
+      <path d="M844 1298 H1028 L1062 1510 V1534 Q1064 1548 1050 1548 H822 Q808 1548 810 1534 V1510Z" fill={COLORS.grayHairShadow} />
+      <path d="M854 1288 H1018 Q1026 1288 1028 1298 L1062 1510 Q1064 1524 1050 1524 H822 Q808 1524 810 1510 L844 1298 Q846 1288 854 1288Z" fill={COLORS.grayHair} />
+      {/* Подушка чуть примята: нижний слой даёт толщину, верхний — мягкий силуэт. */}
+      <path d="M880 1308 Q916 1300 937 1308 Q970 1301 994 1310 Q1010 1311 1012 1327 L1013 1354 Q1007 1371 990 1369 Q954 1361 931 1369 Q894 1376 873 1369 Q857 1364 860 1350 L862 1327 Q863 1313 880 1308Z" fill={COLORS.grayHairShadow} />
+      <path d="M880 1301 Q916 1293 937 1301 Q970 1294 994 1303 Q1010 1304 1012 1320 L1013 1347 Q1007 1364 990 1362 Q954 1354 931 1362 Q894 1369 873 1362 Q857 1357 860 1343 L862 1320 Q863 1306 880 1301Z" fill={COLORS.paper} />
+      <path d="M989 1320 Q1003 1332 990 1350 Q996 1333 989 1320Z" fill={COLORS.grayHair} />
+      {/* Одеяло свободно свисает с торца, верхний край отогнут после сна. */}
+      <path d="M810 1514 Q848 1505 881 1517 T943 1518 Q985 1508 1018 1517 Q1042 1524 1063 1512 L1064 1541 Q1064 1561 1045 1560 Q1008 1549 979 1561 Q944 1571 911 1559 Q874 1550 850 1560 Q815 1570 811 1547Z" fill={COLORS.blanketShade} />
+      <path d="M833 1371 Q873 1360 906 1371 Q944 1386 980 1375 Q1013 1367 1038 1376 L1063 1509 Q1065 1525 1051 1529 Q1025 1534 996 1527 Q964 1522 940 1531 Q905 1542 871 1531 Q844 1525 824 1531 Q809 1532 810 1517Z" fill={COLORS.blanket} />
+      <path d="M833 1371 Q873 1360 906 1371 Q944 1386 980 1375 Q1013 1367 1038 1376 L1041 1400 Q1014 1391 979 1400 Q943 1412 906 1397 Q870 1382 829 1394Z" fill={COLORS.blanketLight} />
+      {/* Складки — небольшие криволинейные заливки, без обводок и градиентов. */}
+      <path d="M852 1421 Q838 1459 841 1491 Q851 1460 852 1421Z" fill={COLORS.blanketShade} />
+      <path d="M959 1424 Q979 1449 968 1483 Q984 1458 972 1436Z" fill={COLORS.blanketLight} />
+      <path d="M1008 1492 Q1033 1480 1045 1498 Q1028 1489 1008 1492Z" fill={COLORS.blanketShade} />
+      <path d="M871 1531 Q893 1541 915 1535 L910 1559 Q888 1552 871 1555Z" fill={COLORS.blanketLight} />
 
       {/* Самокат из общего набора ассетов, без перерисовки. */}
       <Scooter x={15} y={1390} width={242} />
