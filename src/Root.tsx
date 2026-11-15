@@ -5,6 +5,7 @@ import "./config/fonts";
 import { VIDEO } from "./config/video";
 import { Ep00Test, EP00_DURATION } from "./episodes/Ep00Test";
 import { Ep01Assets, EP01_ASSETS_DURATION } from "./episodes/Ep01Assets";
+import { Ep01LocationPreviews } from "./scenes/Ep01LocationPreviews";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -24,6 +25,7 @@ export const RemotionRoot: React.FC = () => (
       width={VIDEO.width}
       height={VIDEO.height}
     />
+    <Ep01LocationPreviews />
     {/* Новые серии добавляйте ниже: id в формате Ep01-Название */}
   </>
 );
