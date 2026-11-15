@@ -4,17 +4,21 @@ import { Phone } from "../../props/Phone";
 import { Face, type FaceProps } from "../shared/Face";
 
 export const LyokhaArm: React.FC<{
-  side: "left" | "right"; angle: number; jacket: boolean; holdingPhone?: boolean;
-}> = ({ side, angle, jacket, holdingPhone }) => {
+  side: "left" | "right"; angle: number; bend?: number; jacket: boolean; holdingPhone?: boolean;
+}> = ({ side, angle, bend = 0, jacket, holdingPhone }) => {
   const x = side === "left" ? 190 : 410;
   return (
     <g transform={`rotate(${side === "left" ? angle : -angle} ${x} 460)`}>
-      <rect x={x - 28} y={440} width={56} height={246} rx={28}
+      <rect x={x - 28} y={440} width={56} height={bend === 0 ? 246 : 118} rx={28}
         fill={jacket ? COLORS.courier : COLORS.lyokhaHoodie} />
-      <rect x={x - 28} y={648} width={56} height={25} rx={8}
-        fill={jacket ? COLORS.courierShadow : COLORS.lyokhaHoodieShadow} />
-      {holdingPhone && <Phone x={x - 29} y={600} width={66} />}
-      <ellipse cx={x - (holdingPhone ? 13 : 0)} cy={697} rx={28} ry={32} fill={COLORS.skin} />
+      <g transform={`rotate(${side === "left" ? -bend : bend} ${x} 530)`}>
+        {bend !== 0 && <rect x={x - 28} y={502} width={56} height={184} rx={28}
+          fill={jacket ? COLORS.courier : COLORS.lyokhaHoodie} />}
+        <rect x={x - 28} y={648} width={56} height={25} rx={8}
+          fill={jacket ? COLORS.courierShadow : COLORS.lyokhaHoodieShadow} />
+        {holdingPhone && <Phone x={x - 29} y={600} width={66} />}
+        <ellipse cx={x - (holdingPhone ? 13 : 0)} cy={697} rx={28} ry={32} fill={COLORS.skin} />
+      </g>
     </g>
   );
 };
