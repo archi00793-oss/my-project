@@ -4,6 +4,7 @@ import test from "node:test";
 import { getCameraState } from "../src/animation/camera.ts";
 import { getTransitionWindows } from "../src/animation/transitions.ts";
 import { getCaptionWords, loadCaptionsFromSrt, parseSrtCaptions } from "../src/animation/captions.ts";
+import { getSfxVolume } from "../src/animation/audio.ts";
 
 test("Камера удерживает крайние положения и наследует незаданные координаты", () => {
   const keys = [{ frame: 10, zoom: 1, x: 20 }, { frame: 30, zoom: 1.2, y: -10 }];
@@ -88,4 +89,27 @@ test("Демонстрационные субтитры лежат в грани
   const captions = parseSrtCaptions(input, 30);
   assert.equal(captions.length, 3);
   assert.ok(captions.every((c) => c.from >= 75 && c.from < c.to && c.to <= 300));
+});
+
+test("SFX: громкость затухает к краям и не появляется вне окна", () => {
+  const envelope = { volume: 0.6, durationInFrames: 15, fadeInFrames: 2, fadeOutFrames: 3 };
+  assert.equal(getSfxVolume(-1, envelope), 0);
+  assert.equal(getSfxVolume(0, envelope), 0);
+  assert.equal(getSfxVolume(2, envelope), 0.6);
+  assert.equal(getSfxVolume(7, envelope), 0.6);
+  assert.equal(getSfxVolume(14, envelope), 0);
+  assert.equal(getSfxVolume(15, envelope), 0);
+  assert.throws(() => getSfxVolume(0, { volume: 2 }));
+  assert.throws(() => getSfxVolume(0, { fadeOutFrames: 3 }));
+});
+
+test("SFX: четыре WAV-файла имеют корректный PCM-заголовок и ненулевой звук", async () => {
+  for (const file of ["shake", "flash", "zoom", "wipe"]) {
+    const wav = await readFile(new URL(`../public/sfx/${file}.wav`, import.meta.url));
+    assert.equal(wav.toString("ascii", 0, 4), "RIFF");
+    assert.equal(wav.readUInt32LE(4), wav.length - 8);
+    assert.equal(wav.toString("ascii", 8, 16), "WAVEfmt ");
+    assert.equal(wav.readUInt32LE(24), 48000);
+    assert.ok(wav.subarray(44).some((value) => value !== 0));
+  }
 });

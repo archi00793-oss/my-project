@@ -10,6 +10,7 @@ import type { Caption } from "../components/Captions";
 import { DayCounter } from "../components/DayCounter";
 import { Transitions } from "../components/Transitions";
 import { useSrtCaptions } from "../components/useSrtCaptions";
+import { Sfx } from "../components/Sfx";
 import { COLORS, FONTS, sec, VIDEO } from "../config/video";
 import { Room } from "../scenes/Room";
 
@@ -81,6 +82,10 @@ export const Ep00Test: React.FC = () => {
       }}>{LABELS[shot]}</div>
       <Captions captions={LEGACY_CAPTIONS} fontSize={100} />
       <Captions captions={imported} mode="word-by-word" fontSize={100} />
+      <Sfx src="shake.wav" from={sec(1.6)} durationInFrames={sec(0.5)} volume={0.5} fadeInFrames={2} fadeOutFrames={3} />
+      <Sfx src="flash.wav" from={sec(2.5)} durationInFrames={sec(0.25)} volume={0.55} />
+      <Sfx src="zoom.wav" from={sec(4.8)} durationInFrames={sec(0.4)} volume={0.5} />
+      <Sfx src="wipe.wav" from={sec(7.2)} durationInFrames={sec(0.6)} volume={0.5} />
     </AbsoluteFill>
   );
 };
