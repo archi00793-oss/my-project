@@ -5,7 +5,8 @@ import { Face, type FaceProps } from "../shared/Face";
 
 export const LyokhaArm: React.FC<{
   side: "left" | "right"; angle: number; bend?: number; jacket: boolean; holdingPhone?: boolean;
-}> = ({ side, angle, bend = 0, jacket, holdingPhone }) => {
+  phoneContent?: React.ReactNode; phoneWidth?: number;
+}> = ({ side, angle, bend = 0, jacket, holdingPhone, phoneContent, phoneWidth = 66 }) => {
   const x = side === "left" ? 190 : 410;
   return (
     <g transform={`rotate(${side === "left" ? angle : -angle} ${x} 460)`}>
@@ -16,7 +17,9 @@ export const LyokhaArm: React.FC<{
           fill={jacket ? COLORS.courier : COLORS.lyokhaHoodie} />}
         <rect x={x - 28} y={648} width={56} height={25} rx={8}
           fill={jacket ? COLORS.courierShadow : COLORS.lyokhaHoodieShadow} />
-        {holdingPhone && <Phone x={x - 29} y={600} width={66} />}
+        {/* Телефон растёт вверх от ладони; при ширине 66 прежнее положение (x−29, 600). */}
+        {holdingPhone && <Phone x={x - 29 + (phoneWidth - 66) * 0.08}
+          y={697 - 97 * phoneWidth / 66} width={phoneWidth}>{phoneContent}</Phone>}
         <ellipse cx={x - (holdingPhone ? 13 : 0)} cy={697} rx={28} ry={32} fill={COLORS.skin} />
       </g>
     </g>

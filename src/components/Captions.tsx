@@ -14,11 +14,13 @@ type Props = {
   /** Отступ сверху до блока субтитров, px */
   top?: number;
   fontSize?: number;
+  /** Необязательная локальная типографика слова; текст и тайминг сохраняются. */
+  renderWord?: (word: string) => React.ReactNode;
 };
 
 const norm = (w: string) => w.toLowerCase().replace(/[.,!?…:;«»"—-]/g, "");
 
-export const Captions: React.FC<Props> = ({ captions, mode = "sentence", top = 1330, fontSize = 118 }) => {
+export const Captions: React.FC<Props> = ({ captions, mode = "sentence", top = 1330, fontSize = 118, renderWord }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const active = captions.find((c) => frame >= c.from && frame < c.to);
@@ -69,7 +71,7 @@ export const Captions: React.FC<Props> = ({ captions, mode = "sentence", top = 1
                 } : {}),
               }}
             >
-              {word.text}
+              {renderWord ? renderWord(word.text) : word.text}
               {mode === "sentence" ? " " : null}
             </span>
             {/* Пробел вне inline-block позволяет переносить слова без скачков. */}
