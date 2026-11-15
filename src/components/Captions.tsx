@@ -58,22 +58,22 @@ export const Captions: React.FC<Props> = ({ captions, mode = "sentence", top = 1
       >
         {words.map((word, i) => (
           <React.Fragment key={i}>
-          <span
-            style={{
-              color: accent.has(norm(word.text)) || (mode === "word-by-word" && frame >= word.from && frame < word.to)
-                ? COLORS.captionAccent : COLORS.captionMain,
-              ...(mode === "word-by-word" ? {
-                display: "inline-block",
-                visibility: frame >= word.from ? "visible" : "hidden",
-                opacity: spring({ frame: frame - word.from, fps, config: { damping: 18, stiffness: 260 } }),
-              } : {}),
-            }}
-          >
-            {word.text}
-            {mode === "sentence" ? " " : null}
-          </span>
-          {/* Пробел вне inline-block позволяет переносить слова без скачков. */}
-          {mode === "word-by-word" ? " " : null}
+            <span
+              style={{
+                color: accent.has(norm(word.text)) || (mode === "word-by-word" && frame >= word.from && frame < word.to)
+                  ? COLORS.captionAccent : COLORS.captionMain,
+                ...(mode === "word-by-word" ? {
+                  display: "inline-block",
+                  visibility: frame >= word.from ? "visible" : "hidden",
+                  opacity: spring({ frame: frame - word.from, fps, config: { damping: 18, stiffness: 260 } }),
+                } : {}),
+              }}
+            >
+              {word.text}
+              {mode === "sentence" ? " " : null}
+            </span>
+            {/* Пробел вне inline-block позволяет переносить слова без скачков. */}
+            {mode === "word-by-word" ? " " : null}
           </React.Fragment>
         ))}
       </div>

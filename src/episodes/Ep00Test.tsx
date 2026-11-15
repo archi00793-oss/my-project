@@ -11,6 +11,7 @@ import { DayCounter } from "../components/DayCounter";
 import { Transitions } from "../components/Transitions";
 import { useSrtCaptions } from "../components/useSrtCaptions";
 import { Sfx } from "../components/Sfx";
+import type { SfxProps } from "../components/Sfx";
 import { COLORS, FONTS, sec, VIDEO } from "../config/video";
 import { Room } from "../scenes/Room";
 
@@ -18,6 +19,12 @@ const SHOT_DURATION = sec(2.5);
 export const EP00_DURATION = SHOT_DURATION * 4;
 const HERO_WIDTH = 640;
 const LABELS = ["КАМЕРА · НАЕЗД И ТРЯСКА", "ВСПЫШКА · СМЕНА СЦЕНЫ", "БЫСТРЫЙ НАЕЗД", "ШТОРКА · НОВАЯ СЦЕНА"];
+const DEMO_SFX = [
+  { name: "ТРЯСКА", src: "shake.wav", from: sec(1.6), durationInFrames: sec(0.5), volume: 0.5, fadeInFrames: 2, fadeOutFrames: 3 },
+  { name: "ВСПЫШКА", src: "flash.wav", from: sec(2.5), durationInFrames: sec(0.25), volume: 0.55 },
+  { name: "НАЕЗД", src: "zoom.wav", from: sec(4.8), durationInFrames: sec(0.4), volume: 0.5 },
+  { name: "ШТОРКА", src: "wipe.wav", from: sec(7.2), durationInFrames: sec(0.6), volume: 0.5 },
+] satisfies SfxProps[];
 
 const LEGACY_CAPTIONS: Caption[] = [
   { text: "Это тестовая сцена", from: sec(0.3), to: sec(2.4), accent: ["тестовая"] },
@@ -65,6 +72,7 @@ export const Ep00Test: React.FC = () => {
   const imported = useSrtCaptions("ep00-engine.srt");
   const talking = isTalking(LEGACY_CAPTIONS, frame) || isTalking(imported ?? [], frame);
   const shot = Math.min(3, Math.floor(frame / SHOT_DURATION));
+  const activeSfx = DEMO_SFX.find((sound) => frame >= sound.from && frame < sound.from + sound.durationInFrames);
   if (imported === null) return null;
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.night }}>
@@ -76,16 +84,23 @@ export const Ep00Test: React.FC = () => {
       ]} />
       <DayCounter day={1} progress={interpolate(frame, [0, EP00_DURATION - 1], [0, 3])} />
       <div style={{
+        position: "absolute", top: 170, right: 50, padding: "14px 20px", borderRadius: 18,
+        backgroundColor: COLORS.badgeBg, color: activeSfx ? COLORS.progress : COLORS.captionMain,
+        fontFamily: FONTS.caption, fontWeight: 700, fontSize: 32,
+      }}>SFX · {activeSfx?.name ?? "ПАУЗА"}</div>
+      <div style={{
         position: "absolute", top: 320, left: 50, right: 50, padding: "14px 20px",
         borderRadius: 18, backgroundColor: COLORS.badgeBg, color: COLORS.captionMain,
         fontFamily: FONTS.caption, fontWeight: 700, fontSize: 44, textAlign: "center",
       }}>{LABELS[shot]}</div>
+      <div style={{
+        position: "absolute", top: 425, left: 50, right: 50,
+        fontFamily: FONTS.caption, fontWeight: 700, fontSize: 28, textAlign: "center",
+        color: COLORS.captionMain, textShadow: `0 2px 4px ${COLORS.captionStroke}`,
+      }}>{shot === 0 ? "СУБТИТРЫ: ПРЕЖНИЙ РЕЖИМ" : "СУБТИТРЫ: ПО СЛОВАМ · ИЗ SRT"}</div>
       <Captions captions={LEGACY_CAPTIONS} fontSize={100} />
       <Captions captions={imported} mode="word-by-word" fontSize={100} />
-      <Sfx src="shake.wav" from={sec(1.6)} durationInFrames={sec(0.5)} volume={0.5} fadeInFrames={2} fadeOutFrames={3} />
-      <Sfx src="flash.wav" from={sec(2.5)} durationInFrames={sec(0.25)} volume={0.55} />
-      <Sfx src="zoom.wav" from={sec(4.8)} durationInFrames={sec(0.4)} volume={0.5} />
-      <Sfx src="wipe.wav" from={sec(7.2)} durationInFrames={sec(0.6)} volume={0.5} />
+      {DEMO_SFX.map((sound) => <Sfx key={sound.src} {...sound} />)}
     </AbsoluteFill>
   );
 };
