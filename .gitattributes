@@ -1,0 +1,8 @@
+# Одинаковые переносы строк на Windows и Mac, чтобы git не показывал лишних изменений
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.mp3 binary
+*.wav binary
+*.mp4 binary

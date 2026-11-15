@@ -1,0 +1,24 @@
+{
+  "name": "cartoon-reels",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Мультяшный сериал вертикальных роликов на Remotion",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource/oswald": "^5.3.0",
+    "@remotion/cli": "^4.0.543",
+    "@remotion/fonts": "^4.0.543",
+    "@remotion/media-utils": "^4.0.543",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.543"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}
