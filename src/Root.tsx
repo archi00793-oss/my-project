@@ -36,8 +36,14 @@ export const RemotionRoot: React.FC = () => (
       height={VIDEO.height}
     />
     <Ep01LocationPreviews />
-    <Composition id="Ep01-Kasseta" component={Ep01Kasseta} durationInFrames={EP01_DURATION}
-      fps={VIDEO.fps} width={VIDEO.width} height={VIDEO.height} />
+    <Composition
+      id="Ep01-Kasseta"
+      component={Ep01Kasseta}
+      durationInFrames={EP01_DURATION}
+      fps={VIDEO.fps}
+      width={VIDEO.width}
+      height={VIDEO.height}
+    />
     <Folder name="Ep01-Scenes">
       <Composition id="Ep01-Scene01" component={Scene01} durationInFrames={SCENE01_DURATION}
         fps={VIDEO.fps} width={VIDEO.width} height={VIDEO.height} />
