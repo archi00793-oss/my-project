@@ -36,7 +36,7 @@ export const Scene06: React.FC = () => {
           <Lyokha width={600} holdingPhone={false} jacket expression="surprised"
             mouthOpen={isTalking(lyokhaCaptions, frame) ? 0.25 + mouthFlap(frame, true) * 0.65 : 0.65}
             eyesOpen={1} lookX={-0.8} headTilt={-7}
-            style={{ position: "absolute", left: 475, top: 470 }} />
+            style={{ position: "absolute", left: 360, top: 560 }} />
         </> : <RecordingCloseup noise={0.13}>
           <DedRecording serious lean={1} mouthOpen={mouthFlap(frame, isTalking(dedCaptions, frame)) * 0.7} />
         </RecordingCloseup>}

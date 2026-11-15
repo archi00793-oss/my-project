@@ -23,6 +23,9 @@ try {
   ];
   const selected = process.argv[2] === "4-6" ? shots.slice(6, 12)
     : process.argv[2] === "7-9" ? shots.slice(12)
+    : process.argv[2] === "4-6-details" ? [
+      ["scene04-start", 18], ["scene04-dust", 20.05], ["scene04-insert", 21.05],
+    ]
     : process.argv[2] === "7-9-motion" ? [
       ["scene08-moving", 49.55],
       ["scene09-start", 53], ["scene09-middle", 54.65], ["scene09-before-cut", 56.267],

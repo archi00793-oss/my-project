@@ -26,13 +26,13 @@ export const Scene04: React.FC = () => {
       <Camera keyframes={[{ frame: 0, zoom: 1 }]}>
         <Apartment view={searching ? "wide" : "tv"} tvNoise={frame >= sec(3.45) ? 1 : 0} />
         {searching ? <>
-          {/* Лёха поднимается на кухонную столешницу под антресолью. */}
-          <Lyokha width={480} holdingPhone={false} jacket expression="confused"
-            armLeft={125 + climb * 55} armRight={135 + climb * 45}
+          {/* Ступни остаются на полу; к антресоли тянутся руки, а не весь персонаж. */}
+          <Lyokha width={750} holdingPhone={false} jacket expression="confused"
+            armLeft={145 + climb * 35} armRight={145 + climb * 35}
             eyesOpen={blink(frame)} headTilt={-8}
-            style={{ position: "absolute", left: 60, top: 580 - climb * 286 }} />
-          <Vcr width={190} style={{ position: "absolute", left: 320 - retrieve * 80,
-            top: 350 + retrieve * 15 }} />
+            style={{ position: "absolute", left: -30, top: 150 }} />
+          <Vcr width={190} style={{ position: "absolute", left: 320 + retrieve * 60,
+            top: 350 + retrieve * 30 }} />
           {[0, 1, 2].map((i) => {
             const fall = ease(frame, sec(0.25 + i * 0.22), sec(1.05 + i * 0.17));
             return <TapeBox key={i} width={180 - i * 14} open={false}
@@ -43,13 +43,13 @@ export const Scene04: React.FC = () => {
         </> : dusting ? <>
           <Lyokha width={640} holdingPhone={false} jacket expression="neutral"
             bendLeft={120} bendRight={120} headTilt={12} mouthOpen={0.35}
-            eyesOpen={0.6} style={{ position: "absolute", left: -20, top: 400 }} />
-          <Vcr width={560} style={{ position: "absolute", left: 35, top: 840 }} />
+            eyesOpen={0.6} style={{ position: "absolute", left: -20, top: 490 }} />
+          <Vcr width={560} style={{ position: "absolute", left: 35, top: 930 }} />
           <svg width={VIDEO.width} height={VIDEO.height} style={{ position: "absolute", inset: 0 }}>
             {/* Пыль с корпуса разлетается от выдоха; её количество убывает. */}
             {Array.from({ length: 18 }, (_, i) => <ellipse key={i}
               cx={100 + i * 23 + blow * (160 + i * 6)}
-              cy={865 - blow * (70 + (i % 4) * 25)} rx={5 + i % 4} ry={3 + i % 3}
+              cy={955 - blow * (70 + (i % 4) * 25)} rx={5 + i % 4} ry={3 + i % 3}
               fill={COLORS.grayHairShadow} opacity={1 - blow} />)}
           </svg>
         </> : <>
@@ -63,7 +63,7 @@ export const Scene04: React.FC = () => {
           <Lyokha width={500} holdingPhone={false} jacket expression="neutral"
             armLeft={60 - insert * 8} bendRight={100} lookX={-0.6}
             eyesOpen={blink(frame)} headTilt={8}
-            style={{ position: "absolute", left: 500, top: 720 }} />
+            style={{ position: "absolute", left: 430, top: 720 }} />
         </>}
       </Camera>
       <Sfx src="ep01-boxes.wav" from={sec(0.25)} durationInFrames={sec(1.25)} volume={0.7} />
