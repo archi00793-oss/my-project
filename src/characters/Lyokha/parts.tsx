@@ -3,6 +3,33 @@ import { COLORS } from "../../config/video";
 import { Phone } from "../../props/Phone";
 import { Face, type FaceProps } from "../shared/Face";
 
+export type HandTarget = readonly [number, number];
+
+/** Рука с заданной точкой захвата; предмет и кисть используют одну систему координат. */
+export const LyokhaReachArm: React.FC<{
+  side: "left" | "right"; target: HandTarget; jacket: boolean; item?: React.ReactNode;
+}> = ({ side, target: [hx, hy], jacket, item }) => {
+  const sx = side === "left" ? 190 : 410;
+  const sy = 460;
+  const dx = hx - sx;
+  const dy = hy - sy;
+  const distance = Math.max(1, Math.hypot(dx, dy));
+  const bend = Math.min(65, distance * 0.3) * (side === "left" ? 1 : -1);
+  const ex = (sx + hx) / 2 + dy / distance * bend;
+  const ey = (sy + hy) / 2 - dx / distance * bend;
+  const fill = jacket ? COLORS.courier : COLORS.lyokhaHoodie;
+  const segment = (x: number, y: number, tx: number, ty: number) => <rect
+    x={x - 28} y={y - 28} width={56} height={Math.hypot(tx - x, ty - y) + 56} rx={28}
+    fill={fill} transform={`rotate(${Math.atan2(ty - y, tx - x) * 180 / Math.PI - 90} ${x} ${y})`} />;
+  return <g>
+    {segment(sx, sy, ex, ey)}{segment(ex, ey, hx, hy)}
+    <g transform={`translate(${hx} ${hy})`}>
+      <rect x={-29} y={-36} width={58} height={23} rx={9} fill={jacket ? COLORS.courierShadow : COLORS.lyokhaHoodieShadow} />
+      {item}<ellipse rx={28} ry={31} fill={COLORS.skin} />
+    </g>
+  </g>;
+};
+
 export const LyokhaArm: React.FC<{
   side: "left" | "right"; angle: number; bend?: number; jacket: boolean; holdingPhone?: boolean;
   phoneContent?: React.ReactNode; phoneWidth?: number;

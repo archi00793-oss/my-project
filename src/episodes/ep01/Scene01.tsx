@@ -26,6 +26,6 @@ export const Scene01: React.FC = () => (
       <VhsTape label={FIRST_TAPE_LABEL} width={VIDEO.width * 0.8}
         style={{ position: "absolute", left: VIDEO.width * 0.1, top: 600 }} />
     </Camera>
-    <Captions captions={captions} fontSize={92} top={1320} />
+    <Captions captions={captions} fontSize={124} top={1360} />
   </AbsoluteFill>
 );

@@ -4,12 +4,13 @@ import { COLORS, VIDEO } from "../config/video";
 export type DoorwayProps = {
   /** Открытый проём виден из квартиры; закрытая дверь — перед звонком. */
   open?: boolean;
+  openProgress?: number;
 };
 
 const { width: W, height: H } = VIDEO;
 
 /** Пустая лестничная площадка. Коробка и герой добавляются самой сценой. */
-export const Doorway: React.FC<DoorwayProps> = ({ open = true }) => (
+export const Doorway: React.FC<DoorwayProps> = ({ open = true, openProgress = open ? 1 : 0 }) => (
   <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H}
     style={{ position: "absolute", inset: 0 }} role="img"
     aria-label={open ? "Открытая дверь на пустую лестничную площадку" : "Закрытая дверь квартиры"}>
@@ -43,26 +44,13 @@ export const Doorway: React.FC<DoorwayProps> = ({ open = true }) => (
     <rect x={131} y={1515} width={700} height={27} rx={6} fill={COLORS.cardboardLight} />
     <rect x={137} y={1542} width={698} height={16} rx={5} fill={COLORS.doorInset} />
 
-    {open ? (
-      <g>
-        <path d="M156 326 L308 407 Q316 411 316 425 V1436 Q316 1447 306 1453 L156 1515Z" fill={COLORS.doorWood} />
-        <path d="M178 380 L290 438 V1399 L178 1453Z" fill={COLORS.doorInset} />
-        <ellipse cx={264} cy={776} rx={5} ry={10} fill={COLORS.monitorFrame} />
-        <path d="M265 1053 L281 1047 V1110 L265 1116Z" fill={COLORS.plasticLight} />
-        <path d="M263 1063 L299 1049 V1065 L263 1079Z" fill={COLORS.counter} />
-      </g>
-    ) : (
-      <g>
-        <rect x={156} y={326} width={659} height={1189} rx={11} fill={COLORS.doorWood} />
-        <rect x={190} y={366} width={591} height={527} rx={18} fill={COLORS.doorInset} />
-        <rect x={190} y={929} width={591} height={547} rx={18} fill={COLORS.doorInset} />
-        <circle cx={485} cy={744} r={14} fill={COLORS.counter} />
-        <circle cx={485} cy={744} r={7} fill={COLORS.monitorFrame} />
-        <rect x={720} y={1010} width={27} height={111} rx={9} fill={COLORS.plasticLight} />
-        <rect x={656} y={1031} width={87} height={18} rx={9} fill={COLORS.counter} />
-        <circle cx={734} cy={1094} r={6} fill={COLORS.monitorFrame} />
-      </g>
-    )}
+    <g>
+      <path d={`M156 326 L${815 - openProgress * 499} ${326 + openProgress * 81} V${1515 - openProgress * 62} L156 1515Z`} fill={COLORS.doorWood} />
+      <path d={`M180 366 L${780 - openProgress * 490} ${366 + openProgress * 72} V${1476 - openProgress * 77} L180 1476Z`} fill={COLORS.doorInset} />
+      <ellipse cx={485 - openProgress * 221} cy={744 + openProgress * 32} rx={14 - openProgress * 9} ry={14} fill={COLORS.monitorFrame} />
+      <rect x={720 - openProgress * 455} y={1010 + openProgress * 43} width={27 - openProgress * 11} height={111 - openProgress * 48} rx={6} fill={COLORS.plasticLight} />
+      <rect x={656 - openProgress * 393} y={1031 + openProgress * 29} width={87 - openProgress * 51} height={18} rx={7} fill={COLORS.counter} />
+    </g>
 
     <rect x={907} y={866} width={59} height={89} rx={15} fill={COLORS.apartmentTrim} />
     <circle cx={936} cy={910} r={17} fill={COLORS.counter} />

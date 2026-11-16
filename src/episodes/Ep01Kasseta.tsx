@@ -10,7 +10,7 @@ import { Scene07, SCENE07_DURATION } from "./ep01/Scene07";
 import { Scene08, SCENE08_DURATION } from "./ep01/Scene08";
 import { Scene09, SCENE09_DURATION } from "./ep01/Scene09";
 
-/** Все девять сцен: 0:00–0:57, тайминг по сценарию до появления озвучки. */
+/** Все девять сцен: 0:00–1:00, тайминг по сценарию до появления озвучки. */
 export const EP01_DURATION = SCENE01_DURATION + SCENE02_DURATION + SCENE03_DURATION
   + SCENE04_DURATION + SCENE05_DURATION + SCENE06_DURATION
   + SCENE07_DURATION + SCENE08_DURATION + SCENE09_DURATION;
