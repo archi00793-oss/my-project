@@ -1,13 +1,12 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { AbsoluteFill, spring, useCurrentFrame } from "remotion";
 import { blink, breathe } from "../../animation/motion";
 import { Lyokha } from "../../characters/Lyokha";
 import { Camera } from "../../components/Camera";
 import { Captions, type Caption } from "../../components/Captions";
-import { sec } from "../../config/video";
+import { COLORS, FONTS, VIDEO, sec } from "../../config/video";
 import { TapeBox, Vcr, VhsTape } from "../../props";
 import { Apartment } from "../../scenes/Apartment";
-import { BlackCard } from "../../scenes/BlackCard";
 import { CashCounter } from "./Scene08";
 
 export const SCENE09_DURATION = sec(4);
@@ -17,10 +16,13 @@ const captions: Caption[] = [
   { text: "знал, что делает.", from: sec(1.5), to: TITLE_FROM },
 ];
 
-/** 0:53–0:57. Наезд на кассету Жмыхова и резкая склейка на финальный титр. */
+/** 0:56–1:00. Наезд на кассету Жмыхова и резкая склейка на финальный титр. */
 export const Scene09: React.FC = () => {
   const frame = useCurrentFrame();
-  if (frame >= TITLE_FROM) return <BlackCard title="ЛЁХИНО" />;
+  if (frame >= TITLE_FROM) return <AbsoluteFill style={{ background: COLORS.black, justifyContent: "center", alignItems: "center" }}>
+    <div style={{ fontFamily: FONTS.caption, color: COLORS.paper, fontSize: 220, lineHeight: 1,
+      scale: spring({ frame: frame - TITLE_FROM, fps: VIDEO.fps, config: { damping: 11, stiffness: 260 } }) }}>ЛЁХИНО<span style={{ color: COLORS.courier }}>.</span></div>
+  </AbsoluteFill>;
   return (
     <AbsoluteFill>
       <Camera transformOrigin="50% 55%" keyframes={[
@@ -32,13 +34,13 @@ export const Scene09: React.FC = () => {
         <Lyokha width={570} jacket holdingPhone expression="serious" mouthOpen={0}
           lookX={1} headTilt={18} eyesOpen={blink(frame)} bob={breathe(frame) * 2}
           style={{ position: "absolute", left: 120, top: 490 }} />
-        <TapeBox width={250} labels={["Когда приедешь", "Когда станет совсем тяжело", "Когда влюбишься"]}
+        <TapeBox width={250} labels={["", "", ""]}
           style={{ position: "absolute", left: 810, top: 1288 }} />
         <VhsTape width={220} label="Если придёт Жмыхов"
           style={{ position: "absolute", left: 820, top: 1263 }} />
       </Camera>
       <CashCounter settled />
-      <Captions captions={captions} fontSize={82} top={1430} />
+      <Captions captions={captions} fontSize={124} top={1360} />
     </AbsoluteFill>
   );
 };

@@ -1,7 +1,7 @@
+import { LyokhaPovHand } from "../../characters/Lyokha/LyokhaPovHand";
+import { LyokhaCloseup } from "./LyokhaCloseup";
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { blink, breathe } from "../../animation/motion";
-import { Lyokha } from "../../characters/Lyokha";
 import { Camera } from "../../components/Camera";
 import { Captions, type Caption } from "../../components/Captions";
 import { COLORS, FONTS, sec } from "../../config/video";
@@ -54,20 +54,17 @@ const BankScreen: React.FC = () => (
   </AbsoluteFill>
 );
 
-/** 0:43–0:48. Лёха с телефоном в руке: маршрут сменяется банковским приложением. */
+/** 0:46–0:51. Лёха с телефоном в руке: маршрут сменяется банковским приложением. */
 export const Scene07: React.FC = () => {
   const frame = useCurrentFrame();
   return (
     <AbsoluteFill>
-      <Camera keyframes={[{ frame: 0, zoom: 1 }]}>
-        <Apartment />
-        <Lyokha width={900} jacket holdingPhone phoneWidth={260}
-          phoneContent={frame < BANK_FROM ? <RouteScreen /> : <BankScreen />}
-          expression={frame < BANK_FROM ? "confused" : "sad"}
-          eyesOpen={blink(frame)} lookX={1} headTilt={8} mouthOpen={0} bob={breathe(frame) * 2}
-          style={{ position: "absolute", left: -100, top: 160 }} />
-      </Camera>
-      <Captions captions={captions} fontSize={82} top={1430} renderWord={alignRubleWord} />
+      {frame >= sec(4.1) ? <LyokhaCloseup expression="sad" headTilt={8} lookX={0} /> :
+        <Camera><Apartment />
+          <LyokhaPovHand mode="phone" x={95} y={260} width={1000}
+            screen={frame < BANK_FROM ? <RouteScreen /> : <BankScreen />} />
+        </Camera>}
+      <Captions captions={captions} fontSize={124} top={1360} renderWord={alignRubleWord} />
     </AbsoluteFill>
   );
 };
